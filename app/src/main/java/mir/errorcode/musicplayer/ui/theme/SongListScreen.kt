@@ -2,6 +2,7 @@ package mir.errorcode.musicplayer.ui.theme
 
 import android.Manifest
 import android.os.Build
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,9 +44,11 @@ fun SongListScreen(onSongClick:(songs:List<Song>, position: Int)-> Unit){
         Manifest.permission.READ_EXTERNAL_STORAGE
     }
     val permissionState = rememberPermissionState(permission)
-    LaunchedEffect(permissionState.status) {
-        if(permissionState.status.isGranted){
+    LaunchedEffect(permissionState.status.isGranted) {
+        if (permissionState.status.isGranted) {
+            Log.d("SongList", "Songs loaded: ${songsState.value.size}")
             songsState.value = getSongs(context)
+
         }
     }
     Box(modifier = Modifier.fillMaxSize()){
@@ -76,6 +79,11 @@ fun SongListScreen(onSongClick:(songs:List<Song>, position: Int)-> Unit){
                     Text(text = stringResource(R.string.permission_to_musics))
                 }
             }
+            SongList(
+                songs = songsState.value,
+                onSongClick = {pos -> onSongClick(songsState.value, pos)},
+                modifier = Modifier.weight(1f)
+            )
         }
     }
 

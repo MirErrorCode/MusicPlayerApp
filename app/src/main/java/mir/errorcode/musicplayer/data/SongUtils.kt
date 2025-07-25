@@ -2,6 +2,7 @@ package mir.errorcode.musicplayer.data
 
 import android.content.Context
 import android.provider.MediaStore
+import android.util.Log
 
 
 fun getSongs(context: Context): List<Song> {
@@ -39,5 +40,6 @@ fun getSongs(context: Context): List<Song> {
             songs.add(Song(id,title,artist,data,albumId))
         }
     }
+
     return songs
 }
